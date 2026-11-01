@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import type { CourseWithRelations } from "@/features/courses/schemas";
 import { COURSE_STATUS_LABEL } from "@/features/courses/schemas";
+import { EnrollmentsTab } from "@/features/courses/components/admin/enrollments-tab";
 import { formatCount, formatPrice } from "@/lib/format";
 import { Avatar } from "@/components/shared/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -183,6 +184,8 @@ export function CourseDetailView({ course }: { course: CourseWithRelations }) {
             {/* Curriculum */}
             <Curriculum course={course} sections={sections} lessons={lessons} />
           </>
+        ) : tab === "enrollments" ? (
+          <EnrollmentsTab totalEnrollments={course.enrolled} />
         ) : (
           <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-surface px-6 py-20 text-center">
             <span className="flex size-12 items-center justify-center rounded-xl bg-primary-50 text-primary">

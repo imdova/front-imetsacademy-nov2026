@@ -77,6 +77,48 @@
   /* ---- Layout extras ---- */
   --spacing-header: 64px; /* header-h token; also == h-16 */
   --container-app: 1280px; /* container token; centered max width */
+
+  /* ---- Animations ---- */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-fade-in: fade-in 0.15s ease-out;
+  --animate-sheet-in: sheet-in 0.2s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 /* Spacing scale: tokens space-1..space-16 (4px step) match Tailwind's default
@@ -250,5 +292,16 @@
   :focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
+  }
+  /* Respect reduced-motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }

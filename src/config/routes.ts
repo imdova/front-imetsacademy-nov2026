@@ -35,6 +35,7 @@ export const routes = {
     payments: "/learn/payments",
     saved: "/learn/saved",
     notifications: "/learn/notifications",
+    settings: "/learn/settings",
     help: "/learn/help",
   },
 

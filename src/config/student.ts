@@ -8,6 +8,7 @@ export type StudentIcon =
   | "payments"
   | "saved"
   | "notifications"
+  | "settings"
   | "help";
 
 export type StudentNavItem = {
@@ -25,5 +26,6 @@ export const studentNav: StudentNavItem[] = [
   { label: "Payments", href: routes.student.payments, icon: "payments" },
   { label: "Saved Courses", href: routes.student.saved, icon: "saved" },
   { label: "Notifications", href: routes.student.notifications, icon: "notifications", badge: 3 },
+  { label: "Settings", href: routes.student.settings, icon: "settings" },
   { label: "Help & Support", href: routes.student.help, icon: "help" },
 ];

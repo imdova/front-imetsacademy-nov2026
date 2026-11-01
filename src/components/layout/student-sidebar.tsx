@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   PlayCircle,
   Rocket,
+  Settings,
   User,
   type LucideIcon,
 } from "lucide-react";
@@ -28,6 +29,7 @@ const iconFor: Record<StudentIcon, LucideIcon> = {
   payments: CreditCard,
   saved: Bookmark,
   notifications: Bell,
+  settings: Settings,
   help: CircleHelp,
 };
 

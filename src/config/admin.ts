@@ -3,6 +3,7 @@ import { routes } from "@/config/routes";
 /** Icon keys mapped to lucide components in the sidebar (config stays icon-free). */
 export type AdminIcon =
   | "dashboard"
+  | "crm"
   | "courses"
   | "programs"
   | "learners"
@@ -21,6 +22,19 @@ export type AdminNavItem = {
 
 export const adminNav: AdminNavItem[] = [
   { label: "Dashboard", href: routes.admin.dashboard, icon: "dashboard" },
+  {
+    label: "CRM",
+    href: routes.admin.crm.overview,
+    icon: "crm",
+    children: [
+      { label: "Overview", href: routes.admin.crm.overview },
+      { label: "Leads", href: routes.admin.crm.leads },
+      { label: "Pipeline", href: routes.admin.crm.pipeline },
+      { label: "Deals", href: routes.admin.crm.deals },
+      { label: "Enrollments", href: routes.admin.crm.enrollments },
+      { label: "Payments & Installments", href: routes.admin.crm.payments },
+    ],
+  },
   {
     label: "Courses",
     href: routes.admin.courses,

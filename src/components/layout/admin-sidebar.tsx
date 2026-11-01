@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   Settings,
   ShoppingCart,
+  Target,
   User,
   Users,
   type LucideIcon,
@@ -23,6 +24,7 @@ import { cn } from "@/lib/utils";
 
 const iconFor: Record<AdminIcon, LucideIcon> = {
   dashboard: LayoutDashboard,
+  crm: Target,
   courses: GraduationCap,
   programs: Layers,
   learners: Users,

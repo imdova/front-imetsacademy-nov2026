@@ -29,6 +29,15 @@ export const routes = {
     payments: "/admin/payments",
     reports: "/admin/reports",
     settings: "/admin/settings",
+    crm: {
+      overview: "/admin/crm",
+      leads: "/admin/crm/leads",
+      leadDetail: (id: string) => `/admin/crm/leads/${id}`,
+      pipeline: "/admin/crm/pipeline",
+      deals: "/admin/crm/deals",
+      enrollments: "/admin/crm/enrollments",
+      payments: "/admin/crm/payments",
+    },
   },
 
   // Student portal

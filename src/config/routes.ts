@@ -25,4 +25,16 @@ export const routes = {
     reports: "/admin/reports",
     settings: "/admin/settings",
   },
+
+  // Student portal
+  student: {
+    dashboard: "/learn",
+    profile: "/learn/profile",
+    courses: "/learn/courses",
+    certificates: "/learn/certificates",
+    payments: "/learn/payments",
+    saved: "/learn/saved",
+    notifications: "/learn/notifications",
+    help: "/learn/help",
+  },
 } as const;

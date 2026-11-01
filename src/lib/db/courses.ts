@@ -1,6 +1,6 @@
 import "server-only";
 import { NotFoundError } from "@/lib/errors";
-import { delay } from "@/lib/db/delay";
+import { delay } from "@/lib/delay";
 import type {
   Category,
   Course,

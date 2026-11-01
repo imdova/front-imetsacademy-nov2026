@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import type { NavItem } from "@/config/site";
 import { routes } from "@/config/routes";
@@ -14,16 +13,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
-
-function isActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
 
 /** Mobile navigation drawer (Radix Dialog). Trigger hidden on desktop. */
 export function MobileMenu({ items }: { items: readonly NavItem[] }) {
-  const pathname = usePathname();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -45,23 +37,16 @@ export function MobileMenu({ items }: { items: readonly NavItem[] }) {
         </div>
         <SheetTitle className="sr-only">Site navigation</SheetTitle>
         <nav aria-label="Mobile" className="flex flex-1 flex-col gap-1 overflow-y-auto p-4">
-          {items.map((item) => {
-            const active = isActive(pathname, item.href);
-            return (
-              <SheetClose asChild key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "rounded-md px-3 py-3 text-label text-ink hover:bg-surface-alt",
-                    active && "bg-primary-50 text-primary",
-                  )}
-                >
-                  {item.label}
-                </Link>
-              </SheetClose>
-            );
-          })}
+          {items.map((item) => (
+            <SheetClose asChild key={item.href}>
+              <Link
+                href={item.href}
+                className="rounded-md px-3 py-3 text-label text-ink hover:bg-surface-alt"
+              >
+                {item.label}
+              </Link>
+            </SheetClose>
+          ))}
         </nav>
         <div className="flex flex-col gap-3 border-t border-border p-4">
           <SheetClose asChild>

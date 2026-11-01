@@ -107,16 +107,27 @@ export const COURSE_SORT_OPTIONS: { value: CourseSort; label: string }[] = [
   { value: "price-desc", label: "Price: High to Low" },
 ];
 
-/** List query — parsed from URL search params (coerced, with defaults). */
+/**
+ * List query — parsed from URL search params. Invalid values fall back to
+ * sensible defaults (robust against hand-edited URLs) rather than throwing.
+ */
 export const courseListQuerySchema = z.object({
   q: z.string().trim().optional(),
   category: z.string().trim().optional(), // category slug; undefined = all
-  sort: courseSortSchema.default("popular"),
-  page: z.coerce.number().int().min(1).default(1),
-  pageSize: z.coerce.number().int().min(1).max(48).default(9),
+  sort: courseSortSchema.catch("popular"),
+  page: z.coerce.number().int().min(1).catch(1),
+  pageSize: z.coerce.number().int().min(1).max(48).catch(9),
 });
 export type CourseListQuery = z.infer<typeof courseListQuerySchema>;
-export type CourseListQueryInput = z.input<typeof courseListQuerySchema>;
+
+/** Loose input accepted by the DAL (raw URL params; validated on parse). */
+export type CourseListQueryRaw = {
+  q?: string;
+  category?: string;
+  sort?: string;
+  page?: string | number;
+  pageSize?: string | number;
+};
 
 /** Standard paginated list response. */
 export const courseListResponseSchema = z.object({

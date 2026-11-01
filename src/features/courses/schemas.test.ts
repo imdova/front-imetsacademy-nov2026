@@ -13,11 +13,11 @@ describe("courseListQuerySchema", () => {
     expect(parsed.pageSize).toBe(12);
   });
 
-  it("rejects an unknown sort value", () => {
-    expect(() => courseListQuerySchema.parse({ sort: "cheapest" })).toThrow();
+  it("falls back to popular for an unknown sort value", () => {
+    expect(courseListQuerySchema.parse({ sort: "cheapest" }).sort).toBe("popular");
   });
 
-  it("clamps pageSize within bounds", () => {
-    expect(() => courseListQuerySchema.parse({ pageSize: "999" })).toThrow();
+  it("falls back to the default pageSize when out of bounds", () => {
+    expect(courseListQuerySchema.parse({ pageSize: "999" }).pageSize).toBe(9);
   });
 });

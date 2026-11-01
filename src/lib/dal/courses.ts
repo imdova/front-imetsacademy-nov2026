@@ -8,7 +8,7 @@ import {
   courseListQuerySchema,
   courseListResponseSchema,
   courseWithRelationsSchema,
-  type CourseListQueryInput,
+  type CourseListQueryRaw,
 } from "@/features/courses/schemas";
 
 /**
@@ -18,7 +18,7 @@ import {
  */
 const adapter = serverEnv.DATA_SOURCE === "api" ? apiAdapter : mockAdapter;
 
-export async function getCourses(input: CourseListQueryInput = {}) {
+export async function getCourses(input: CourseListQueryRaw = {}) {
   const query = courseListQuerySchema.parse(input);
   const raw = await adapter.listCourses(query);
   return courseListResponseSchema.parse(raw);

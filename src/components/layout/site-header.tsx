@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
 import { siteConfig } from "@/config/site";
@@ -6,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { IconButton } from "@/components/ui/icon-button";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
+import { NavLinks } from "@/components/layout/nav-links";
 import { MainNav } from "@/components/layout/main-nav";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 
@@ -18,7 +20,9 @@ export function SiteHeader() {
           <Logo priority />
         </Link>
 
-        <MainNav items={siteConfig.nav} />
+        <Suspense fallback={<NavLinks items={siteConfig.nav} pathname={null} />}>
+          <MainNav items={siteConfig.nav} />
+        </Suspense>
 
         <div className="ms-auto flex items-center gap-3">
           <IconButton shape="square" asChild aria-label="Search courses">

@@ -8,7 +8,13 @@ import {
 import type { CourseModule } from "@/features/courses/schemas";
 
 /** Module → lesson curriculum. Module rows on primary-50; first module open. */
-export function CurriculumAccordion({ modules }: { modules: CourseModule[] }) {
+export function CurriculumAccordion({
+  modules,
+  live = false,
+}: {
+  modules: CourseModule[];
+  live?: boolean;
+}) {
   return (
     <Accordion
       type="multiple"
@@ -35,6 +41,12 @@ export function CurriculumAccordion({ modules }: { modules: CourseModule[] }) {
                   <span className="flex-1">
                     <span className="text-ink-subtle">{lesson.code}</span> {lesson.title}
                   </span>
+                  {live && (
+                    <span className="inline-flex shrink-0 items-center gap-1 rounded-pill bg-accent-50 px-2 py-0.5 text-[11px] font-bold text-accent-text">
+                      <span className="size-1.5 rounded-full bg-accent-strong" aria-hidden="true" />
+                      Live
+                    </span>
+                  )}
                   <small className="inline-flex shrink-0 items-center gap-1 text-caption text-ink-subtle">
                     <Clock className="size-3.5" aria-hidden="true" />
                     {lesson.durationMin} min

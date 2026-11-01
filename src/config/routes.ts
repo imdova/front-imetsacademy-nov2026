@@ -17,6 +17,7 @@ export const routes = {
     courses: "/admin/courses",
     newCourse: "/admin/courses/new",
     courseDetail: (slug: string) => `/admin/courses/${slug}`,
+    newQuiz: "/admin/courses/quizzes/new",
     categories: "/admin/courses/categories",
     newCategory: "/admin/courses/categories/new",
     newSubcategory: "/admin/courses/categories/subcategory",
@@ -40,6 +41,22 @@ export const routes = {
     notifications: "/learn/notifications",
     settings: "/learn/settings",
     help: "/learn/help",
+  },
+
+  // Instructor portal
+  instructor: {
+    home: "/instructor",
+    profile: "/instructor/profile",
+    courses: "/instructor/courses",
+    quizzes: "/instructor/quizzes",
+    newQuiz: "/instructor/quizzes/new",
+    assignments: "/instructor/assignments",
+    students: "/instructor/students",
+    earnings: "/instructor/earnings",
+    reports: "/instructor/reports",
+    messages: "/instructor/messages",
+    notifications: "/instructor/notifications",
+    settings: "/instructor/settings",
   },
 
   // Course player (learning experience)

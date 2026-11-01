@@ -10,4 +10,19 @@ export const routes = {
   contact: "/contact",
   signIn: "/sign-in",
   register: "/register",
+
+  // Admin dashboard
+  admin: {
+    dashboard: "/admin",
+    courses: "/admin/courses",
+    newCourse: "/admin/courses/new",
+    categories: "/admin/courses/categories",
+    programs: "/admin/programs",
+    learners: "/admin/learners",
+    instructors: "/admin/instructors",
+    enrollments: "/admin/enrollments",
+    payments: "/admin/payments",
+    reports: "/admin/reports",
+    settings: "/admin/settings",
+  },
 } as const;

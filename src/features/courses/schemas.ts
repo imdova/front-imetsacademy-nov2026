@@ -9,6 +9,17 @@ export const PROGRAM_TYPE_LABEL: Record<ProgramType, string> = {
   "certification-prep": "Certification Prep",
 };
 
+/** Publication lifecycle status (admin). */
+export const courseStatusSchema = z.enum(["published", "scheduled", "draft", "archived"]);
+export type CourseStatus = z.infer<typeof courseStatusSchema>;
+
+export const COURSE_STATUS_LABEL: Record<CourseStatus, string> = {
+  published: "Published",
+  scheduled: "Scheduled",
+  draft: "Draft",
+  archived: "Archived",
+};
+
 /** Category tile tints (design-system). One category keeps one tint site-wide. */
 export const categoryTintSchema = z.enum(["blue", "teal", "violet", "warm"]);
 export type CategoryTint = z.infer<typeof categoryTintSchema>;
@@ -56,6 +67,8 @@ export type CourseModule = z.infer<typeof moduleSchema>;
 export const courseSchema = z.object({
   id: z.string(),
   slug: z.string(),
+  code: z.string(),
+  status: courseStatusSchema,
   title: z.string(),
   summary: z.string(), // one-line card description
   description: z.string(), // "About This Course"

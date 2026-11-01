@@ -98,6 +98,8 @@ const courses: Course[] = [
   {
     id: "crs_strategic_mgmt",
     slug: "strategic-management-diploma",
+    code: "IM-SMD-001",
+    status: "published",
     title: "Strategic Management Diploma",
     summary: "Develop strategic thinking and leadership skills to drive business growth.",
     description:
@@ -164,6 +166,8 @@ const courses: Course[] = [
   {
     id: "crs_digital_transformation",
     slug: "digital-transformation-diploma",
+    code: "IM-DTD-002",
+    status: "published",
     title: "Digital Transformation Diploma",
     summary: "Lead digital change and build the capabilities for business transformation.",
     description:
@@ -230,6 +234,8 @@ const courses: Course[] = [
   {
     id: "crs_pmp_prep",
     slug: "pmp-certification-prep",
+    code: "IM-PMP-003",
+    status: "published",
     title: "Project Management Professional (PMP)® Prep",
     summary: "Comprehensive preparation to pass the PMP® exam with mock exams and real-world scenarios.",
     description:
@@ -296,6 +302,8 @@ const courses: Course[] = [
   {
     id: "crs_leadership_diploma",
     slug: "leadership-team-management-diploma",
+    code: "IM-LTM-004",
+    status: "published",
     title: "Leadership & Team Management Diploma",
     summary: "Build the leadership skills to motivate teams and deliver results.",
     description:
@@ -362,6 +370,8 @@ const courses: Course[] = [
   {
     id: "crs_agile_scrum",
     slug: "agile-scrum-master-prep",
+    code: "IM-ASM-005",
+    status: "draft",
     title: "Agile & Scrum Master Certification Prep",
     summary: "Master agile delivery and prepare for your Scrum Master certification.",
     description:
@@ -428,6 +438,8 @@ const courses: Course[] = [
   {
     id: "crs_data_analytics",
     slug: "data-analytics-for-decision-making",
+    code: "IM-DAD-006",
+    status: "scheduled",
     title: "Data & Analytics for Decision Making",
     summary: "Turn data into confident, evidence-based business decisions.",
     description:
@@ -494,6 +506,8 @@ const courses: Course[] = [
   {
     id: "crs_change_mgmt",
     slug: "change-management-diploma",
+    code: "IM-CMD-007",
+    status: "published",
     title: "Change Management Diploma",
     summary: "Lead organizational change that sticks, from plan to adoption.",
     description:
@@ -560,6 +574,8 @@ const courses: Course[] = [
   {
     id: "crs_executive_leadership",
     slug: "executive-leadership-program",
+    code: "IM-ELP-008",
+    status: "published",
     title: "Executive Leadership Program",
     summary: "An advanced program for senior leaders shaping strategy and culture.",
     description:

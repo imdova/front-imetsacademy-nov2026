@@ -15,14 +15,16 @@ export const SheetDescription = DialogPrimitive.Description;
 export function SheetContent({
   className,
   children,
+  side = "end",
   ...props
-}: ComponentProps<typeof DialogPrimitive.Content>) {
+}: ComponentProps<typeof DialogPrimitive.Content> & { side?: "start" | "end" }) {
   return (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-ink/40 data-[state=open]:animate-fade-in" />
       <DialogPrimitive.Content
         className={cn(
-          "fixed inset-y-0 end-0 z-50 flex w-[88%] max-w-sm flex-col bg-surface shadow-lg outline-none data-[state=open]:animate-sheet-in",
+          "fixed inset-y-0 z-50 flex w-[88%] max-w-sm flex-col bg-surface shadow-lg outline-none data-[state=open]:animate-sheet-in",
+          side === "start" ? "start-0" : "end-0",
           className,
         )}
         {...props}

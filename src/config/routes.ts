@@ -37,4 +37,10 @@ export const routes = {
     notifications: "/learn/notifications",
     help: "/learn/help",
   },
+
+  // Course player (learning experience)
+  player: {
+    lesson: (slug: string) => `/player/${slug}`,
+    quiz: (slug: string) => `/player/${slug}/quiz`,
+  },
 } as const;

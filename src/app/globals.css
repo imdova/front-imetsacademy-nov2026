@@ -1,0 +1,254 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   IMETS Academy — design tokens
+   Mapped 1:1 from design-system/tokens.json (single source of truth).
+   No hex values or arbitrary sizes belong in components — use these tokens.
+   Light theme only (tokens.json defines one theme); RTL-ready via logical utils.
+   ========================================================================== */
+
+@theme {
+  /* ---- Color: brand (semantic names, used directly in components) ---- */
+  --color-navy-950: #071536;
+  --color-navy-900: #0b1f4d;
+  --color-navy-800: #13307a;
+
+  --color-primary: #1b2fd9;
+  --color-primary-hover: #1424b3;
+  --color-primary-50: #eaf0fd;
+  --color-primary-100: #d6e0fb;
+
+  --color-accent: #f5b335;
+  --color-accent-hover: #e9a21f;
+  --color-accent-50: #fff4de;
+  --color-accent-strong: #c06a00; /* gold text on white, 24px+ only */
+  --color-accent-text: #985800; /* gold-family text below 24px */
+
+  --color-logo-blue: #1412bb; /* logo only */
+  --color-logo-gold: #edae5a; /* logo only */
+
+  --color-ink: #0b1a3f;
+  --color-ink-muted: #4a5878;
+  --color-ink-subtle: #6b7790;
+
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted: #c7d0e8;
+
+  --color-surface: #ffffff;
+  --color-surface-alt: #f5f7fb;
+
+  --color-border: #dde3ee;
+  --color-border-input: #c5cedf;
+  --color-border-control: #848fa8;
+
+  --color-success: #15803d;
+  --color-success-50: #e7f7ec;
+  --color-danger: #dc2626;
+  --color-danger-50: #fdecec;
+
+  --color-whatsapp: #25d366;
+  --color-whatsapp-50: #e9f9ef;
+
+  --color-violet: #6d28d9;
+  --color-violet-50: #efe9fd;
+  --color-orange: #c2410c;
+  --color-orange-50: #fff1e3;
+  --color-teal: #047857;
+  --color-teal-50: #e6f6f1;
+  --color-rose: #be123c;
+  --color-rose-50: #fde8ec;
+
+  /* ---- Fonts (next/font exposes the face vars; fallbacks from tokens.json) ---- */
+  --font-display: var(--font-outfit), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ---- Radii (override Tailwind defaults to match tokens) ---- */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows (override Tailwind defaults to match tokens) ---- */
+  --shadow-sm: 0 1px 2px rgba(11, 26, 63, 0.06), 0 1px 3px rgba(11, 26, 63, 0.04);
+  --shadow-md: 0 8px 24px rgba(11, 26, 63, 0.08);
+  --shadow-lg: 0 16px 40px rgba(11, 26, 63, 0.14);
+
+  /* ---- Layout extras ---- */
+  --spacing-header: 64px; /* header-h token; also == h-16 */
+  --container-app: 1280px; /* container token; centered max width */
+}
+
+/* Spacing scale: tokens space-1..space-16 (4px step) match Tailwind's default
+   numeric scale exactly (p-5=20px, gap-6=24px, p-8=32px, py-12=48px, py-16=64px),
+   so the default utilities ARE the tokens — no overrides needed. */
+
+/* ==========================================================================
+   shadcn / Radix compatibility layer
+   Semantic aliases pointed at brand tokens so any Radix/shadcn-style primitive
+   inherits the brand. Components prefer the brand utilities above; these cover
+   focus rings, surfaces and generic states.
+   ========================================================================== */
+:root {
+  --radius: 8px; /* radius-md */
+  --background: var(--color-surface);
+  --foreground: var(--color-ink);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-surface);
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-primary);
+  --primary-foreground: var(--color-on-dark);
+  --secondary: var(--color-surface-alt);
+  --secondary-foreground: var(--color-ink);
+  --muted: var(--color-surface-alt);
+  --muted-foreground: var(--color-ink-subtle);
+  --accent: var(--color-surface-alt); /* NOTE: neutral hover bg, NOT brand gold */
+  --accent-foreground: var(--color-ink);
+  --destructive: var(--color-danger);
+  --destructive-foreground: var(--color-on-dark);
+  --border: var(--color-border);
+  --input: var(--color-border-input);
+  --ring: var(--color-primary);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/* ==========================================================================
+   Type scale — one utility per style from tokens.json type groups.
+   Display group uses --font-display; Text group uses --font-sans.
+   Use these names everywhere (text-h2, text-body-sm, …); never raw px.
+   ========================================================================== */
+@utility text-display-xl {
+  font-family: var(--font-display);
+  font-size: 56px;
+  line-height: 60px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+@utility text-display-lg {
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 54px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+@utility text-h1 {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+@utility text-h2 {
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 38px;
+  font-weight: 800;
+}
+@utility text-h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+}
+@utility text-h4 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+@utility text-price {
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 38px;
+  font-weight: 800;
+}
+@utility text-stat {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+}
+@utility text-body-lg {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+}
+@utility text-body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+@utility text-body-sm {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+@utility text-label {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+}
+@utility text-caption {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+@utility text-overline {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  *,
+  ::after,
+  ::before {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-surface-alt);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 24px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* Visible focus for keyboard users (2px primary ring, 2px offset) */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}

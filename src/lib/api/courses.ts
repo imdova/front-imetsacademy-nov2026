@@ -1,6 +1,7 @@
 import "server-only";
 import { apiFetch } from "@/lib/api/client";
 import type { CourseListQuery } from "@/features/courses/schemas";
+import type { CreateCourseForm } from "@/features/courses/wizard-schema";
 
 /** HTTP adapter (NestJS). Mirrors the mock adapter; parsed by the DAL. */
 
@@ -30,4 +31,8 @@ export function listFeaturedCourses(limit = 4): Promise<unknown> {
 
 export function listCategories(): Promise<unknown> {
   return apiFetch(`/categories`, { next: { tags: ["categories"] } });
+}
+
+export function createCourse(input: CreateCourseForm): Promise<unknown> {
+  return apiFetch(`/courses`, { method: "POST", body: input });
 }

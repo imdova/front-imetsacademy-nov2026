@@ -9,6 +9,7 @@ import type {
   CourseWithRelations,
   Instructor,
 } from "@/features/courses/schemas";
+import type { CreateCourseForm } from "@/features/courses/wizard-schema";
 
 /* ------------------------------------------------------------------ seed --- */
 
@@ -726,4 +727,83 @@ export async function listCategories(): Promise<Category[]> {
   await delay();
   const items = categoriesSeed.map((c) => categoryBySlugOrThrow(c.slug));
   return structuredClone(items);
+}
+
+/* ------------------------------------------------------------ mutations --- */
+
+function slugify(input: string): string {
+  return (
+    input
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 60) || "course"
+  );
+}
+
+const PROGRAM_BY_TYPE: Record<CreateCourseForm["courseType"], Course["programType"]> = {
+  diploma: "diploma",
+  certificate: "certification-prep",
+  "short-course": "certification-prep",
+};
+
+const STATUS_BY_PUBLISH: Record<CreateCourseForm["publishOption"], Course["status"]> = {
+  "publish-now": "published",
+  schedule: "scheduled",
+  draft: "draft",
+};
+
+/** Create a course from the admin wizard. Persists in memory only (dev). */
+export async function createCourse(input: CreateCourseForm): Promise<CourseWithRelations> {
+  await delay();
+  const seq = String(courses.length + 1).padStart(3, "0");
+  const id = `crs_${Date.now().toString(36)}`;
+  const baseSlug = slugify(input.title);
+  const slug = courses.some((c) => c.slug === baseSlug) ? `${baseSlug}-${seq}` : baseSlug;
+  const status = STATUS_BY_PUBLISH[input.publishOption];
+  const firstInstructor = instructors[0];
+  if (!firstInstructor) throw new NotFoundError("No instructors available");
+
+  const curriculum: CourseModule[] = input.curriculum.map((m, mi) => ({
+    title: m.title,
+    lessons: m.lessons.map((l, li) => ({
+      code: `${mi + 1}.${li + 1}`,
+      title: l.title,
+      durationMin: l.durationMin,
+    })),
+  }));
+
+  const course: Course = {
+    id,
+    slug,
+    code: `IM-NEW-${seq}`,
+    status,
+    title: input.title,
+    summary: input.summary,
+    description: input.summary,
+    programType: PROGRAM_BY_TYPE[input.courseType],
+    categorySlug: input.categorySlug,
+    instructorId: firstInstructor.id,
+    price: 0,
+    oldPrice: null,
+    discountPercent: null,
+    durationMonths: input.durationMonths,
+    sessions: input.sessions,
+    learningMode: input.learningMode,
+    language: input.language,
+    certificate: "IMETS Academy Certificate",
+    rating: 0,
+    reviews: 0,
+    enrolled: 0,
+    registrationOpen: status === "published",
+    featured: false,
+    keyBenefits: [],
+    whatYouLearn: [],
+    curriculum,
+    createdAt: new Date().toISOString().slice(0, 10),
+  };
+
+  courses.unshift(course);
+  return structuredClone(withRelations(course));
 }

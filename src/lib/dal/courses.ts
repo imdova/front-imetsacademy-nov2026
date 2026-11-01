@@ -10,6 +10,7 @@ import {
   courseWithRelationsSchema,
   type CourseListQueryRaw,
 } from "@/features/courses/schemas";
+import { createCourseFormSchema, type CreateCourseForm } from "@/features/courses/wizard-schema";
 
 /**
  * Courses Data Access Layer — the ONLY data entry point for the UI.
@@ -37,4 +38,10 @@ export async function getFeaturedCourses(limit = 4) {
 export async function getCategories() {
   const raw = await adapter.listCategories();
   return z.array(categorySchema).parse(raw);
+}
+
+export async function createCourse(input: CreateCourseForm) {
+  const data = createCourseFormSchema.parse(input);
+  const raw = await adapter.createCourse(data);
+  return courseWithRelationsSchema.parse(raw);
 }

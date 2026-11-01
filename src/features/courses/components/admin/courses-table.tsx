@@ -415,7 +415,12 @@ export function CoursesTable({ courses }: { courses: CourseWithRelations[] }) {
                       <div className="flex items-center gap-3">
                         <Thumb course={c} />
                         <div className="min-w-0">
-                          <p className="truncate font-bold text-ink">{c.title}</p>
+                          <Link
+                            href={routes.admin.courseDetail(c.slug)}
+                            className="truncate font-bold text-ink hover:text-primary"
+                          >
+                            {c.title}
+                          </Link>
                           <p className="text-caption text-ink-subtle">
                             {r.lessons} Lessons · {r.weeks} Weeks
                           </p>
@@ -573,7 +578,7 @@ const iconAction =
 function RowActions({ slug }: { slug: string }) {
   return (
     <div className="flex items-center gap-0.5">
-      <Link href={routes.admin.newCourse} aria-label="Edit course" className={iconAction}>
+      <Link href={routes.admin.courseDetail(slug)} aria-label="Edit course" className={iconAction}>
         <Pencil className="size-4" aria-hidden="true" />
       </Link>
       <button type="button" aria-label="Duplicate course" className={iconAction}>
@@ -582,9 +587,6 @@ function RowActions({ slug }: { slug: string }) {
       <button type="button" aria-label="More actions" className={iconAction}>
         <MoreVertical className="size-4" aria-hidden="true" />
       </button>
-      <Link href={routes.course(slug)} className="sr-only">
-        View course
-      </Link>
     </div>
   );
 }

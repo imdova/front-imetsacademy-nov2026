@@ -16,6 +16,7 @@ export const routes = {
     dashboard: "/admin",
     courses: "/admin/courses",
     newCourse: "/admin/courses/new",
+    courseDetail: (slug: string) => `/admin/courses/${slug}`,
     categories: "/admin/courses/categories",
     programs: "/admin/programs",
     learners: "/admin/learners",

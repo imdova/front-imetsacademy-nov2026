@@ -64,4 +64,9 @@ export const routes = {
     lesson: (slug: string) => `/player/${slug}`,
     quiz: (slug: string) => `/player/${slug}/quiz`,
   },
+
+  // Standalone quiz-taking experience
+  quiz: {
+    take: (slug: string) => `/quiz/${slug}`,
+  },
 } as const;

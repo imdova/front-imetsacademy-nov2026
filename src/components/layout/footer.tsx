@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Send } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { routes } from "@/config/routes";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
-import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import {
   FacebookIcon,
   InstagramIcon,
@@ -12,25 +11,32 @@ import {
   YouTubeIcon,
 } from "@/components/icons/social-icons";
 
-const exploreLinks = [
+const quickLinks = [
+  { label: "Home", href: "/" },
   { label: "Explore Courses", href: routes.courses },
   { label: "Learning Paths", href: routes.learningPaths },
   { label: "For Businesses", href: routes.forBusinesses },
-  { label: "Faculty", href: routes.faculty },
 ];
 
-const companyLinks = [
-  { label: "About IMETS", href: routes.about },
-  { label: "Contact", href: routes.contact },
-  { label: "Sign in", href: routes.signIn },
-  { label: "Register", href: routes.register },
+const aboutLinks = [
+  { label: "About Us", href: routes.about },
+  { label: "Our Faculty", href: routes.faculty },
+  { label: "Accreditation", href: routes.about },
+  { label: "Contact Us", href: routes.contact },
+];
+
+const supportLinks = [
+  { label: "FAQs", href: routes.contact },
+  { label: "Help Center", href: routes.contact },
+  { label: "Terms & Conditions", href: routes.about },
+  { label: "Privacy Policy", href: routes.about },
 ];
 
 const socials = [
   { label: "LinkedIn", href: siteConfig.social.linkedin, Icon: LinkedInIcon },
+  { label: "YouTube", href: siteConfig.social.youtube, Icon: YouTubeIcon },
   { label: "Facebook", href: siteConfig.social.facebook, Icon: FacebookIcon },
   { label: "Instagram", href: siteConfig.social.instagram, Icon: InstagramIcon },
-  { label: "YouTube", href: siteConfig.social.youtube, Icon: YouTubeIcon },
 ];
 
 // Evaluated once at build time (render-time Date() is disallowed under Cache Components).
@@ -42,19 +48,40 @@ function FooterHeading({ children }: { children: string }) {
   );
 }
 
-/** Site footer on navy-950, per the design system. */
+function LinkColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  return (
+    <nav aria-label={title} className="space-y-4">
+      <FooterHeading>{title}</FooterHeading>
+      <ul className="space-y-3">
+        {links.map((link) => (
+          <li key={link.label}>
+            <Link href={link.href} className="text-body-sm transition-colors hover:text-on-dark">
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+/** Site footer on navy-950, per the brand design. */
 export function Footer() {
-  const { contact } = siteConfig;
   return (
     <footer className="bg-navy-950 text-on-dark-muted">
       <Container className="py-12 md:py-16">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_2fr]">
           {/* Brand */}
           <div className="space-y-4">
             <Logo variant="dark" />
             <p className="text-body-sm max-w-xs text-on-dark-muted">
-              Professional courses and diplomas in management, leadership and strategy — built
-              for working professionals across Egypt and the Gulf.
+              Professional business and management education for individuals and organizations.
             </p>
             <ul className="flex gap-3">
               {socials.map(({ label, href, Icon }) => (
@@ -73,85 +100,38 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Explore */}
-          <nav aria-label="Explore" className="space-y-4">
-            <FooterHeading>Explore</FooterHeading>
-            <ul className="space-y-3">
-              {exploreLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-body-sm transition-colors hover:text-on-dark"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <LinkColumn title="Quick Links" links={quickLinks} />
+          <LinkColumn title="About IMETS" links={aboutLinks} />
+          <LinkColumn title="Support" links={supportLinks} />
 
-          {/* Company */}
-          <nav aria-label="Company" className="space-y-4">
-            <FooterHeading>Company</FooterHeading>
-            <ul className="space-y-3">
-              {companyLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-body-sm transition-colors hover:text-on-dark"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          {/* Contact */}
+          {/* Subscribe */}
           <div className="space-y-4">
-            <FooterHeading>Contact</FooterHeading>
-            <ul className="space-y-3 text-body-sm">
-              <li className="flex gap-3">
-                <MapPin className="mt-0.5 size-4 shrink-0 text-on-dark-muted" aria-hidden="true" />
-                <span>{contact.address}</span>
-              </li>
-              <li className="flex gap-3">
-                <Phone className="mt-0.5 size-4 shrink-0 text-on-dark-muted" aria-hidden="true" />
-                <a href={contact.phoneHref} className="transition-colors hover:text-on-dark">
-                  {contact.phone}
-                </a>
-              </li>
-              <li className="flex gap-3">
-                <Mail className="mt-0.5 size-4 shrink-0 text-on-dark-muted" aria-hidden="true" />
-                <a href={contact.emailHref} className="transition-colors hover:text-on-dark">
-                  {contact.email}
-                </a>
-              </li>
-              <li className="flex gap-3">
-                <WhatsAppIcon className="mt-0.5 size-4 shrink-0 text-whatsapp" />
-                <a
-                  href={contact.whatsappHref}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="transition-colors hover:text-on-dark"
-                >
-                  Chat on WhatsApp
-                </a>
-              </li>
-            </ul>
+            <FooterHeading>Subscribe to Our Updates</FooterHeading>
+            <p className="text-body-sm text-on-dark-muted">
+              Get the latest courses, offers, and insights.
+            </p>
+            <div className="flex overflow-hidden rounded-md border border-white/15 bg-white/5 focus-within:border-accent">
+              <input
+                type="email"
+                aria-label="Email address"
+                placeholder="Enter your email"
+                className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-body-sm text-on-dark placeholder:text-on-dark-muted focus:outline-none"
+              />
+              <button
+                type="button"
+                aria-label="Subscribe"
+                className="flex shrink-0 items-center justify-center bg-accent px-4 text-ink transition-colors hover:bg-accent-hover"
+              >
+                <Send className="size-4" aria-hidden="true" />
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-caption sm:flex-row sm:items-center sm:justify-between">
-          <p>© {YEAR} IMETS Academy. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href={routes.about} className="transition-colors hover:text-on-dark">
-              Privacy Policy
-            </Link>
-            <Link href={routes.about} className="transition-colors hover:text-on-dark">
-              Terms of Service
-            </Link>
-          </div>
+        <div className="mt-12 border-t border-white/10 pt-6 text-caption">
+          <p className="text-center sm:text-start">
+            © {YEAR} IMETS Academy. All rights reserved.
+          </p>
         </div>
       </Container>
     </footer>

@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { getAdminCategories } from "@/features/categories/data";
+import { getParentCategories } from "@/features/categories/dal";
 import { routes } from "@/config/routes";
-import {
-  CategoryForm,
-  CategoryFormFooter,
-} from "@/features/categories/components/category-form";
+import { CategoryForm } from "@/features/categories/components/category-form";
 
 export const metadata: Metadata = { title: "Add New Category · Admin" };
 
 export default async function AddCategoryPage() {
-  const { items } = await getAdminCategories();
-  const parents = items.map((c) => c.name);
+  const parents = await getParentCategories();
 
   return (
     <div className="space-y-6 p-4 md:p-6 lg:p-8">
@@ -37,7 +33,6 @@ export default async function AddCategoryPage() {
       </div>
 
       <CategoryForm mode="category" parents={parents} />
-      <CategoryFormFooter mode="category" />
     </div>
   );
 }

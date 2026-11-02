@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, LoaderCircle, Mail } from "lucide-react";
@@ -16,6 +17,7 @@ import { signInAction } from "@/features/auth/actions";
 import { PasswordField } from "@/features/auth/components/password-field";
 
 export function SignInForm() {
+  const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [note, setNote] = useState<string | null>(null);
 
@@ -30,6 +32,10 @@ export function SignInForm() {
     startTransition(async () => {
       const res = await signInAction(values);
       setNote(res.message);
+      if (res.ok && res.redirect) {
+        router.push(res.redirect);
+        router.refresh();
+      }
     });
   }
 

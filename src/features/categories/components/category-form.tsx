@@ -1,37 +1,25 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Bold,
   BookOpen,
-  Boxes,
-  Briefcase,
-  BarChart3,
   ChevronDown,
   ChevronRight,
-  Code2,
   Eye,
   Italic,
-  Landmark,
   Layers,
-  Lightbulb,
   Link2,
   List as ListIcon,
   ListOrdered,
-  Megaphone,
   Palette,
   Plus,
-  Rocket,
   Settings,
-  Share2,
-  ShieldCheck,
-  Star,
   Strikethrough,
-  Target,
   Underline,
   Upload,
-  Users,
   type LucideIcon,
 } from "lucide-react";
 import { routes } from "@/config/routes";
@@ -41,28 +29,13 @@ import { cn } from "@/lib/utils";
 import {
   CATEGORY_COLOR_HEX,
   CATEGORY_COLOR_KEYS,
+  CATEGORY_ICONS,
   colorTint,
 } from "@/features/categories/icons";
-import type { CategoryColorKey } from "@/features/categories/data";
+import type { CategoryColorKey, CategoryIconKey } from "@/features/categories/data";
+import { createCategoryAction } from "@/features/categories/actions";
 
-const PICKER_ICONS: LucideIcon[] = [
-  Briefcase,
-  Landmark,
-  Users,
-  BarChart3,
-  Target,
-  Code2,
-  Boxes,
-  Share2,
-  Lightbulb,
-  Megaphone,
-  ShieldCheck,
-  Rocket,
-  BookOpen,
-  Layers,
-  Star,
-  Settings,
-];
+const ICON_ENTRIES = Object.entries(CATEGORY_ICONS) as [CategoryIconKey, LucideIcon][];
 
 function kebab(s: string): string {
   return s
@@ -77,35 +50,60 @@ export function CategoryForm({
   parents,
 }: {
   mode: "category" | "subcategory";
-  parents: string[];
+  parents: { name: string; slug: string }[];
 }) {
   const isSub = mode === "subcategory";
   const noun = isSub ? "Subcategory" : "Category";
   const uid = useId();
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [note, setNote] = useState<{ ok: boolean; message: string } | null>(null);
 
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [slugEdited, setSlugEdited] = useState(false);
   const [shortDesc, setShortDesc] = useState("");
   const [fullDesc, setFullDesc] = useState("");
-  const [parent, setParent] = useState(isSub ? (parents[0] ?? "") : "");
+  const [parent, setParent] = useState(isSub ? (parents[0]?.slug ?? "") : "");
   const [order, setOrder] = useState(1);
   const [active, setActive] = useState(true);
   const [showInNav, setShowInNav] = useState(true);
-  const [iconIdx, setIconIdx] = useState(0);
+  const [iconKey, setIconKey] = useState<CategoryIconKey>(ICON_ENTRIES[0]![0]);
   const [color, setColor] = useState<CategoryColorKey>("navy");
   const [iconTab, setIconTab] = useState<"library" | "upload">("library");
 
-  const SelectedIcon = PICKER_ICONS[iconIdx]!;
+  const SelectedIcon = CATEGORY_ICONS[iconKey];
 
   function onName(v: string) {
     setName(v);
     if (!slugEdited) setSlug(kebab(v));
   }
 
+  function handleCreate() {
+    setNote(null);
+    startTransition(async () => {
+      const res = await createCategoryAction({
+        name,
+        slug,
+        description: shortDesc,
+        icon: iconKey,
+        color,
+        order,
+        active,
+        parent: isSub ? parent : parent || undefined,
+      });
+      setNote(res);
+      if (res.ok) {
+        router.push(routes.admin.categories);
+        router.refresh();
+      }
+    });
+  }
+
   const rtButtons = [Bold, Italic, Underline, Strikethrough];
 
   return (
+    <div className="space-y-6">
     <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
       {/* Form column */}
       <div className="space-y-6">
@@ -119,7 +117,7 @@ export function CategoryForm({
             {isSub && (
               <Field label="Parent Category" required htmlFor={`${uid}-parent`}>
                 <SelectControl id={`${uid}-parent`} value={parent} onChange={setParent} icon={Layers}>
-                  {parents.map((p) => (<option key={p} value={p}>{p}</option>))}
+                  {parents.map((p) => (<option key={p.slug} value={p.slug}>{p.name}</option>))}
                 </SelectControl>
               </Field>
             )}
@@ -170,7 +168,7 @@ export function CategoryForm({
               <Field label="Parent Category (Optional)" htmlFor={`${uid}-parent2`}>
                 <SelectControl id={`${uid}-parent2`} value={parent} onChange={setParent} icon={Layers}>
                   <option value="">None (Top Level Category)</option>
-                  {parents.map((p) => (<option key={p} value={p}>{p}</option>))}
+                  {parents.map((p) => (<option key={p.slug} value={p.slug}>{p.name}</option>))}
                 </SelectControl>
               </Field>
             )}
@@ -205,7 +203,7 @@ export function CategoryForm({
                 {isSub ? (
                   <div className="mt-3 inline-flex flex-wrap items-center gap-1.5 rounded-pill bg-primary-50 px-2.5 py-1 text-caption font-semibold text-primary">
                     <Layers className="size-3.5" aria-hidden="true" />
-                    {parent || "Parent"}
+                    {parents.find((p) => p.slug === parent)?.name || "Parent"}
                     <ChevronRight className="size-3.5" aria-hidden="true" />
                     {name || noun}
                   </div>
@@ -239,10 +237,10 @@ export function CategoryForm({
 
           {iconTab === "library" ? (
             <div className="mt-4 grid grid-cols-6 gap-2">
-              {PICKER_ICONS.map((Icon, i) => {
-                const selected = i === iconIdx;
+              {ICON_ENTRIES.map(([key, Icon]) => {
+                const selected = key === iconKey;
                 return (
-                  <button key={i} type="button" aria-label={`Icon ${i + 1}`} aria-pressed={selected} onClick={() => setIconIdx(i)} className={cn("flex aspect-square items-center justify-center rounded-lg border transition-colors", selected ? "border-primary bg-primary-50 text-primary" : "border-border-input text-ink-muted hover:border-primary hover:text-primary")}>
+                  <button key={key} type="button" aria-label={`${key} icon`} aria-pressed={selected} onClick={() => setIconKey(key)} className={cn("flex aspect-square items-center justify-center rounded-lg border transition-colors", selected ? "border-primary bg-primary-50 text-primary" : "border-border-input text-ink-muted hover:border-primary hover:text-primary")}>
                     <Icon className="size-5" aria-hidden="true" />
                   </button>
                 );
@@ -273,6 +271,23 @@ export function CategoryForm({
             })}
           </div>
         </section>
+      </div>
+    </div>
+
+      {note && (
+        <p role="status" className={cn("rounded-lg px-4 py-2 text-body-sm", note.ok ? "bg-primary-50 text-primary" : "bg-danger-50 text-danger")}>
+          {note.message}
+        </p>
+      )}
+
+      <div className="flex items-center justify-end gap-3">
+        <Button asChild variant="outline" size="lg">
+          <Link href={routes.admin.categories}>Cancel</Link>
+        </Button>
+        <Button size="lg" onClick={handleCreate} disabled={pending}>
+          <Plus className="size-5" aria-hidden="true" />
+          {pending ? "Saving…" : `Create ${noun}`}
+        </Button>
       </div>
     </div>
   );
@@ -313,21 +328,6 @@ function ToggleRow({ label, hint, checked, onChange }: { label: string; hint: st
         <p className="text-caption text-ink-subtle">{hint}</p>
       </div>
       <Switch checked={checked} onCheckedChange={onChange} aria-label={label} />
-    </div>
-  );
-}
-
-export function CategoryFormFooter({ mode }: { mode: "category" | "subcategory" }) {
-  const noun = mode === "subcategory" ? "Subcategory" : "Category";
-  return (
-    <div className="flex items-center justify-end gap-3">
-      <Button asChild variant="outline" size="lg">
-        <Link href={routes.admin.categories}>Cancel</Link>
-      </Button>
-      <Button size="lg">
-        <Plus className="size-5" aria-hidden="true" />
-        Create {noun}
-      </Button>
     </div>
   );
 }

@@ -41,4 +41,4 @@ export const registerSchema = z
   });
 export type RegisterValues = z.infer<typeof registerSchema>;
 
-export type AuthResult = { ok: boolean; message: string };
+export type AuthResult = { ok: boolean; message: string; role?: string; redirect?: string };

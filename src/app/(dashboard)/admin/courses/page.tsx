@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Archive, CirclePlay, Layers, Plus, SquarePen } from "lucide-react";
-import { getCourses } from "@/lib/dal/courses";
+import { getAdminCourses } from "@/lib/dal/courses";
 import { routes } from "@/config/routes";
 import { Button } from "@/components/ui/button";
 import { StatCard } from "@/components/shared/stat-card";
@@ -10,7 +10,7 @@ import { CoursesTable } from "@/features/courses/components/admin/courses-table"
 export const metadata: Metadata = { title: "Courses · Admin" };
 
 export default async function AdminCoursesPage() {
-  const { items: courses } = await getCourses({ pageSize: 48 });
+  const { items: courses } = await getAdminCourses({ pageSize: 48 });
 
   const published = courses.filter((c) => c.status === "published").length;
   const drafts = courses.filter((c) => c.status === "draft" || c.status === "scheduled").length;

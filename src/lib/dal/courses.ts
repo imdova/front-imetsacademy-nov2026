@@ -25,6 +25,20 @@ export async function getCourses(input: CourseListQueryRaw = {}) {
   return courseListResponseSchema.parse(raw);
 }
 
+/**
+ * Admin/instructor course list — includes drafts and archived.
+ * Uses the authenticated admin endpoint when DATA_SOURCE=api; falls back to
+ * the plain list for the mock adapter (which already carries every status).
+ */
+export async function getAdminCourses(input: CourseListQueryRaw = {}) {
+  const query = courseListQuerySchema.parse(input);
+  const raw =
+    "listAdminCourses" in adapter
+      ? await (adapter as typeof apiAdapter).listAdminCourses(query)
+      : await adapter.listCourses(query);
+  return courseListResponseSchema.parse(raw);
+}
+
 export async function getCourseBySlug(slug: string) {
   const raw = await adapter.getCourseBySlug(slug);
   return courseWithRelationsSchema.parse(raw);

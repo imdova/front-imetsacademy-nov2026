@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Eye, GraduationCap, Layers, Plus, Upload, Users } from "lucide-react";
-import { getAdminCategories } from "@/features/categories/data";
+import { getAdminCategoriesData } from "@/features/categories/dal";
 import { routes } from "@/config/routes";
 import { Button } from "@/components/ui/button";
 import { TrendStat } from "@/components/shared/trend-stat";
@@ -10,7 +10,7 @@ import { CategoriesTable } from "@/features/categories/components/categories-tab
 export const metadata: Metadata = { title: "Course Categories · Admin" };
 
 export default async function AdminCategoriesPage() {
-  const { items, stats } = await getAdminCategories();
+  const { items, stats } = await getAdminCategoriesData();
 
   return (
     <div className="space-y-6 p-4 md:p-6 lg:p-8">

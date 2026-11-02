@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +17,7 @@ import { PhoneField } from "@/features/auth/components/phone-field";
 import { JoinAsToggle } from "@/features/auth/components/join-as-toggle";
 
 export function RegisterForm() {
+  const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [note, setNote] = useState<string | null>(null);
 
@@ -41,6 +43,10 @@ export function RegisterForm() {
     startTransition(async () => {
       const res = await registerAction(values);
       setNote(res.message);
+      if (res.ok && res.redirect) {
+        router.push(res.redirect);
+        router.refresh();
+      }
     });
   }
 

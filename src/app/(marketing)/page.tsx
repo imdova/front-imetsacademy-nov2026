@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { getFeaturedCourses } from "@/lib/dal/courses";
 import { Container } from "@/components/layout/container";
 import { HomeHero } from "@/components/shared/home-hero";
+import { HomeExploreBand } from "@/components/home/home-explore-band";
 import { HomeCategories } from "@/components/home/home-categories";
 import { HomeLiveCourses } from "@/components/home/home-live-courses";
 import { HomeWhyChoose } from "@/components/home/home-why-choose";
@@ -19,6 +20,7 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
+      <HomeExploreBand />
       <HomeCategories />
       <HomeLiveCourses />
       <HomeWhyChoose />

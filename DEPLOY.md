@@ -3,8 +3,13 @@
 Target: Ubuntu VPS, Node 20+, served behind Nginx + Let's Encrypt, managed by PM2.
 Next.js runs on `127.0.0.1:3000`; Nginx terminates TLS for `test.imetsacademy.com`.
 
-> The UI currently renders with built-in mock data, so it runs standalone. When we
-> wire it to the backend, set `NEXT_PUBLIC_API_URL` (see below) and rebuild.
+> The UI is wired to the backend. Set `DATA_SOURCE=api` (and the API base URL)
+> in `.env.production` to read/write the live database; leave it `mock` to run
+> standalone on built-in demo data. Deploy the **backend first** so the API is
+> reachable at build/run time.
+>
+> `NEXT_PUBLIC_*` values are inlined at **build** time — always `pnpm build`
+> again after editing `.env.production`.
 
 ---
 
@@ -26,11 +31,14 @@ git checkout main
 pnpm install
 ```
 
-## 3. Environment (optional for now)
+## 3. Environment
 
 ```bash
 cp deploy/env.production.example .env.production
-nano .env.production   # NEXT_PUBLIC_API_URL=https://api.imetsacademy.com/api/v1
+nano .env.production
+# NEXT_PUBLIC_SITE_URL=https://test.imetsacademy.com
+# NEXT_PUBLIC_API_BASE_URL=https://api.imetsacademy.com/api/v1
+# DATA_SOURCE=api        # 'api' = live backend, 'mock' = demo data
 ```
 
 ## 4. Build & start

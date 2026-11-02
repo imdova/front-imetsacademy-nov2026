@@ -3,6 +3,7 @@ import { getFeaturedCourses } from "@/lib/dal/courses";
 import { Container } from "@/components/layout/container";
 import { HomeHero } from "@/components/shared/home-hero";
 import { HomeCategories } from "@/components/home/home-categories";
+import { HomeLiveCourses } from "@/components/home/home-live-courses";
 import { HomeWhyChoose } from "@/components/home/home-why-choose";
 import { HomeFeaturedCourses } from "@/components/home/home-featured-courses";
 import { HomeForBusiness } from "@/components/home/home-for-business";
@@ -19,6 +20,7 @@ export default function HomePage() {
     <>
       <HomeHero />
       <HomeCategories />
+      <HomeLiveCourses />
       <HomeWhyChoose />
       <Suspense
         fallback={

@@ -1,174 +1,40 @@
 import { Suspense } from "react";
-import Link from "next/link";
-import {
-  ArrowRight,
-  Award,
-  Globe,
-  GraduationCap,
-  Monitor,
-  Play,
-  ShieldCheck,
-  TrendingUp,
-  Users,
-} from "lucide-react";
-import { routes } from "@/config/routes";
-import { getCategories, getFeaturedCourses } from "@/lib/dal/courses";
-import { Button } from "@/components/ui/button";
+import { getFeaturedCourses } from "@/lib/dal/courses";
 import { Container } from "@/components/layout/container";
-import { PageHero } from "@/components/shared/page-hero";
-import { FeatureStrip } from "@/components/shared/feature-strip";
-import { SectionHeading } from "@/components/shared/section-heading";
-import { Skeleton } from "@/components/ui/skeleton";
-import { CategoryTile, CourseGrid, CourseGridSkeleton } from "@/features/courses";
-
-const heroStats = [
-  { icon: GraduationCap, value: "10+", label: "Professional Programs" },
-  { icon: Users, value: "5,000+", label: "Professionals Trained" },
-  { icon: ShieldCheck, value: "95%", label: "Satisfaction Rate" },
-  { icon: Globe, value: "Gulf Focus", label: "KSA · UAE · Qatar · Oman" },
-];
-
-const features = [
-  { icon: <Users />, title: "Expert-Led Training", description: "Industry practitioners & leaders" },
-  { icon: <Monitor />, title: "Live Interactive Sessions", description: "Real-time learning on Zoom" },
-  { icon: <Award />, title: "Professional Certificates", description: "IMETS Academy Certificates" },
-  {
-    icon: <TrendingUp />,
-    title: "Career Advancement",
-    description: "Build leadership & management skills",
-  },
-];
-
-function ViewAllLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="group inline-flex items-center gap-1 text-body-sm font-semibold text-primary"
-    >
-      {label}
-      <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-    </Link>
-  );
-}
-
-async function CategoriesGrid() {
-  const categories = await getCategories();
-  return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-      {categories.map((category) => (
-        <CategoryTile key={category.id} category={category} />
-      ))}
-    </div>
-  );
-}
-
-function CategoriesSkeleton() {
-  return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <Skeleton key={i} className="h-28 rounded-lg" />
-      ))}
-    </div>
-  );
-}
+import { HomeHero } from "@/components/shared/home-hero";
+import { HomeExploreBand } from "@/components/home/home-explore-band";
+import { HomeCategories } from "@/components/home/home-categories";
+import { HomeLiveCourses } from "@/components/home/home-live-courses";
+import { HomeWhyChoose } from "@/components/home/home-why-choose";
+import { HomeFeaturedCourses } from "@/components/home/home-featured-courses";
+import { HomeForBusiness } from "@/components/home/home-for-business";
+import { HomeTestimonials } from "@/components/home/home-testimonials";
+import { CourseGridSkeleton } from "@/features/courses";
 
 async function FeaturedCourses() {
-  const courses = await getFeaturedCourses(4);
-  return <CourseGrid courses={courses} columns={4} />;
+  const courses = await getFeaturedCourses(6);
+  return <HomeFeaturedCourses courses={courses} />;
 }
 
 export default function HomePage() {
   return (
     <>
-      <PageHero
-        size="xl"
-        eyebrow={<p className="text-overline text-accent">Learn · Develop · Lead</p>}
-        title={
-          <>
-            Build Business Skills for Real <span className="text-accent">Career Growth.</span>
-          </>
-        }
-        description="Professional courses and diplomas in management, leadership and strategy. Learn from experts, apply in real life — built for working professionals across Egypt and the Gulf."
-        actions={
-          <>
-            <Button asChild variant="accent" size="lg">
-              <Link href={routes.courses}>
-                Explore Courses
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline-dark" size="lg">
-              <Link href={routes.about}>
-                <Play className="size-4" aria-hidden="true" />
-                Watch Introduction
-              </Link>
-            </Button>
-          </>
+      <HomeHero />
+      <HomeExploreBand />
+      <HomeCategories />
+      <HomeLiveCourses />
+      <HomeWhyChoose />
+      <Suspense
+        fallback={
+          <Container className="py-12 md:py-16">
+            <CourseGridSkeleton count={3} columns={3} />
+          </Container>
         }
       >
-        <dl className="mt-10 flex flex-wrap gap-x-8 gap-y-6">
-          {heroStats.map((stat) => (
-            <div key={stat.label} className="flex items-center gap-3">
-              <stat.icon className="size-7 shrink-0 text-accent" aria-hidden="true" />
-              <div>
-                <dd className="font-display text-xl font-bold text-on-dark">{stat.value}</dd>
-                <dt className="text-caption text-on-dark-muted">{stat.label}</dt>
-              </div>
-            </div>
-          ))}
-        </dl>
-      </PageHero>
-
-      <Container className="relative z-10 -mt-10 md:-mt-12">
-        <FeatureStrip items={features} />
-      </Container>
-
-      <Container as="section" className="py-12 md:py-16">
-        <SectionHeading
-          title="Explore by Category"
-          action={<ViewAllLink href={routes.courses} label="View All Categories" />}
-        />
-        <div className="mt-8">
-          <Suspense fallback={<CategoriesSkeleton />}>
-            <CategoriesGrid />
-          </Suspense>
-        </div>
-      </Container>
-
-      <Container as="section" className="pb-12 md:pb-16">
-        <SectionHeading
-          title="Featured Programs"
-          description="Our most in-demand programs for working professionals."
-          action={<ViewAllLink href={routes.courses} label="View All Programs" />}
-        />
-        <div className="mt-8">
-          <Suspense fallback={<CourseGridSkeleton count={4} columns={4} />}>
-            <FeaturedCourses />
-          </Suspense>
-        </div>
-      </Container>
-
-      <section className="bg-navy-900 text-on-dark">
-        <Container className="flex flex-col items-center gap-4 py-12 text-center md:py-16">
-          <h2 className="text-h2 text-on-dark">
-            Ready to Advance Your <span className="text-accent">Career?</span>
-          </h2>
-          <p className="text-body-lg max-w-xl text-on-dark-muted">
-            Join thousands of professionals building the skills that move careers forward.
-          </p>
-          <div className="mt-2 flex flex-wrap justify-center gap-3">
-            <Button asChild variant="accent" size="lg">
-              <Link href={routes.courses}>
-                Explore Courses
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline-dark" size="lg">
-              <Link href={routes.contact}>Talk to Admissions</Link>
-            </Button>
-          </div>
-        </Container>
-      </section>
+        <FeaturedCourses />
+      </Suspense>
+      <HomeForBusiness />
+      <HomeTestimonials />
     </>
   );
 }

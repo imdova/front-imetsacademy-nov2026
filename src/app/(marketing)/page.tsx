@@ -1,32 +1,15 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Award,
-  Globe,
-  GraduationCap,
-  Monitor,
-  Play,
-  ShieldCheck,
-  TrendingUp,
-  Users,
-} from "lucide-react";
+import { ArrowRight, Award, Monitor, TrendingUp, Users } from "lucide-react";
 import { routes } from "@/config/routes";
 import { getCategories, getFeaturedCourses } from "@/lib/dal/courses";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
-import { PageHero } from "@/components/shared/page-hero";
+import { HomeHero } from "@/components/shared/home-hero";
 import { FeatureStrip } from "@/components/shared/feature-strip";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CategoryTile, CourseGrid, CourseGridSkeleton } from "@/features/courses";
-
-const heroStats = [
-  { icon: GraduationCap, value: "10+", label: "Professional Programs" },
-  { icon: Users, value: "5,000+", label: "Professionals Trained" },
-  { icon: ShieldCheck, value: "95%", label: "Satisfaction Rate" },
-  { icon: Globe, value: "Gulf Focus", label: "KSA · UAE · Qatar · Oman" },
-];
 
 const features = [
   { icon: <Users />, title: "Expert-Led Training", description: "Industry practitioners & leaders" },
@@ -80,44 +63,7 @@ async function FeaturedCourses() {
 export default function HomePage() {
   return (
     <>
-      <PageHero
-        size="xl"
-        eyebrow={<p className="text-overline text-accent">Learn · Develop · Lead</p>}
-        title={
-          <>
-            Build Business Skills for Real <span className="text-accent">Career Growth.</span>
-          </>
-        }
-        description="Professional courses and diplomas in management, leadership and strategy. Learn from experts, apply in real life — built for working professionals across Egypt and the Gulf."
-        actions={
-          <>
-            <Button asChild variant="accent" size="lg">
-              <Link href={routes.courses}>
-                Explore Courses
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline-dark" size="lg">
-              <Link href={routes.about}>
-                <Play className="size-4" aria-hidden="true" />
-                Watch Introduction
-              </Link>
-            </Button>
-          </>
-        }
-      >
-        <dl className="mt-10 flex flex-wrap gap-x-8 gap-y-6">
-          {heroStats.map((stat) => (
-            <div key={stat.label} className="flex items-center gap-3">
-              <stat.icon className="size-7 shrink-0 text-accent" aria-hidden="true" />
-              <div>
-                <dd className="font-display text-xl font-bold text-on-dark">{stat.value}</dd>
-                <dt className="text-caption text-on-dark-muted">{stat.label}</dt>
-              </div>
-            </div>
-          ))}
-        </dl>
-      </PageHero>
+      <HomeHero />
 
       <Container className="relative z-10 -mt-10 md:-mt-12">
         <FeatureStrip items={features} />

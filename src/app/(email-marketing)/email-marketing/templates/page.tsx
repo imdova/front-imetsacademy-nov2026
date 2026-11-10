@@ -83,7 +83,7 @@ export default function TemplatesPage() {
         description="Create, manage, and reuse professional email templates for your campaigns and automations."
         right={
           <>
-            <Pill icon={Globe}>imetsedu.com</Pill>
+            <Pill icon={Globe}>test.imetsacademy.com</Pill>
             <Pill icon={CalendarDays}>Last 28 Days</Pill>
           </>
         }

@@ -12,7 +12,7 @@ export default function SettingsPage() {
         description="Sender profiles, sending domains, reply-to addresses, tracking, unsubscribe center, suppression lists, and integrations."
         right={
           <>
-            <Pill icon={Globe}>imetsedu.com</Pill>
+            <Pill icon={Globe}>test.imetsacademy.com</Pill>
             <Pill icon={CalendarDays}>Last 28 Days</Pill>
           </>
         }

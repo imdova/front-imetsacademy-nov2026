@@ -63,7 +63,7 @@ export default function EmailMarketingOverview() {
         description="Create, send, and automate email campaigns to engage your audience and grow enrollments, course registrations, and job applications."
         right={
           <>
-            <Pill icon={Globe}>imetsedu.com</Pill>
+            <Pill icon={Globe}>test.imetsacademy.com</Pill>
             <Pill icon={CalendarDays}>Last 28 Days</Pill>
           </>
         }

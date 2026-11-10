@@ -12,7 +12,7 @@ export default function AnalyticsPage() {
         description="Delivery health, open and click trends, conversion funnel, and campaign comparison across your email program."
         right={
           <>
-            <Pill icon={Globe}>imetsedu.com</Pill>
+            <Pill icon={Globe}>test.imetsacademy.com</Pill>
             <Pill icon={CalendarDays}>Last 28 Days</Pill>
           </>
         }

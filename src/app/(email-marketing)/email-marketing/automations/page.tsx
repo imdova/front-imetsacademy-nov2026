@@ -97,7 +97,7 @@ export default function AutomationsPage() {
         description="Create automated email workflows to nurture leads, enroll students, and engage your audience based on their actions."
         right={
           <>
-            <Pill icon={Globe}>imetsedu.com</Pill>
+            <Pill icon={Globe}>test.imetsacademy.com</Pill>
             <Pill icon={CalendarDays}>Last 28 Days</Pill>
           </>
         }

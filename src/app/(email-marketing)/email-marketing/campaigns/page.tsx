@@ -47,8 +47,8 @@ const info: [string, string][] = [
   ["Campaign Name", "CPHQ Course – Oct Intake"],
   ["Subject", "Join Our Next CPHQ Cohort – Become a Certified Healthcare Quality Professional"],
   ["From Name", "IMETS Medical School"],
-  ["From Email", "info@imetsedu.com"],
-  ["Reply-To", "support@imetsedu.com"],
+  ["From Email", "info@imetsacademy.com"],
+  ["Reply-To", "support@imetsacademy.com"],
   ["Send Time", "Oct 28, 2026 at 02:14 PM"],
 ];
 
@@ -109,7 +109,7 @@ export default function CampaignDetails() {
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Pill icon={Globe}>imetsedu.com</Pill>
+          <Pill icon={Globe}>test.imetsacademy.com</Pill>
           <Pill icon={CalendarDays}>Last 28 Days</Pill>
         </div>
       </div>

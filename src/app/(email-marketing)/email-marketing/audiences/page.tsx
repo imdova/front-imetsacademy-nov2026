@@ -90,7 +90,7 @@ export default function AudiencesPage() {
         description="Manage your email subscribers, segment your audience, and build targeted lists for higher engagement and conversions."
         right={
           <>
-            <Pill icon={Globe}>imetsedu.com</Pill>
+            <Pill icon={Globe}>test.imetsacademy.com</Pill>
             <Pill icon={CalendarDays}>Last 28 Days</Pill>
           </>
         }

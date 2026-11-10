@@ -1,0 +1,74 @@
+/* ============================================================
+   IMETS Medical School — Email Marketing admin design tokens
+   Scoped under .em-theme so they don't touch the main app theme.
+   Source: imets-email-marketing-design-system.md (section 13).
+   ============================================================ */
+.em-theme {
+  --em-primary: #1111d4;
+  --em-primary-hover: #0808b8;
+  --em-navy: #0b1f4b;
+  --em-gold: #e9a54d;
+  --em-gold-soft: #fff3df;
+
+  --em-blue-50: #f2f6ff;
+  --em-blue-100: #e5edff;
+  --em-blue-200: #c9d8ff;
+  --em-blue-500: #3478f6;
+  --em-blue-700: #1748b8;
+
+  --em-white: #ffffff;
+  --em-page: #f5f8fd;
+  --em-surface-subtle: #fbfcff;
+  --em-neutral-100: #eaf0f8;
+  --em-border: #d8e2f0;
+  --em-border-strong: #c9d8ff;
+
+  --em-text-primary: #07143b;
+  --em-text-body: #1b2b4b;
+  --em-text-secondary: #52627d;
+  --em-text-muted: #91a2bc;
+
+  --em-success: #16a34a;
+  --em-success-bg: #e7f8ed;
+  --em-warning: #d99017;
+  --em-warning-bg: #fff5df;
+  --em-danger: #dc2626;
+  --em-danger-bg: #feecec;
+  --em-info: #2563eb;
+  --em-info-bg: #eaf2ff;
+  --em-scheduled: #1d4ed8;
+  --em-draft: #52627d;
+  --em-draft-bg: #eef2f7;
+  --em-paused: #b7791f;
+
+  --em-chart-delivered: #16a34a;
+  --em-chart-opened: #2563eb;
+  --em-chart-clicked: #8b5cf6;
+  --em-chart-converted: #e9a54d;
+  --em-chart-other: #aab6c8;
+  --em-chart-grid: #e8eef7;
+
+  --em-shadow-card: 0 2px 8px rgba(17, 45, 100, 0.06);
+  --em-shadow-hover: 0 6px 18px rgba(17, 45, 100, 0.1);
+  --em-shadow-popover: 0 12px 28px rgba(7, 20, 59, 0.16);
+
+  --em-sidebar-width: 228px;
+  --em-header-height: 64px;
+
+  font-family: var(--font-inter), "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--em-text-body);
+}
+
+/* Tabular numerals for all metrics in this area. */
+.em-theme .em-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hide scrollbar on horizontal scroll regions (tabs, tables) */
+.em-noscroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.em-noscroll::-webkit-scrollbar {
+  display: none;
+}
